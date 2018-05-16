@@ -1,8 +1,11 @@
 package com.trifex.hivestorj.utils;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,12 +21,16 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public static final String EXTRA_INDEX = "index";
+    public static Fragment mParent ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //mParent = getParentFragment();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
@@ -41,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
+
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity_main
             // using a fragment transaction.
@@ -71,4 +79,11 @@ public class DetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public static void setmParent(Fragment parent){
+        mParent = parent;
+    }
+
+
+
 }

@@ -20,7 +20,6 @@ import name.org.trifex.HiveStorj.R;
 
 public class FileInfoFragment extends DialogFragment {
 
-
     public static final String FILE = "file";
 
     interface DownloadListener {

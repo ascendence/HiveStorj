@@ -3,7 +3,6 @@ package com.trifex.hivestorj.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationManager;
-
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -16,24 +15,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.storj.libstorj.Bucket;
-import io.storj.libstorj.DeleteFileCallback;
-import io.storj.libstorj.File;
+import io.storj.libstorj.DeleteBucketCallback;
 import io.storj.libstorj.android.StorjAndroid;
 import name.org.trifex.HiveStorj.R;
-
-
 
 /**
  * Created by ascendance on 5/16/2018.
  */
 
-public class FileDeleter implements DeleteFileCallback {
+public class BucketDeleter implements DeleteBucketCallback {
 
     static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     private Activity mActivity;
     private Bucket mBucket;
-    private File mFile;
+    private DeleteBucketCallback mCallback;
 
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
@@ -42,10 +38,9 @@ public class FileDeleter implements DeleteFileCallback {
 
     static boolean deleted = false;
 
-    FileDeleter(Activity activity, Bucket bucket, File file) {
+    BucketDeleter(Activity activity, Bucket bucket){
         mActivity = activity;
         mBucket = bucket;
-        mFile = file;
     }
 
     public void delete(){
@@ -57,8 +52,10 @@ public class FileDeleter implements DeleteFileCallback {
         }
     }
 
-    public boolean isDeleted(){
-        return deleted;
+    public void doDelete(){
+        StorjAndroid.getInstance(mActivity).deleteBucket(mBucket, BucketDeleter.this);
+
+
     }
 
     private boolean isPermissionGranted() {
@@ -82,29 +79,17 @@ public class FileDeleter implements DeleteFileCallback {
         }
     }
 
-    private void doDelete(){
-
-        StorjAndroid.getInstance(mActivity).deleteFile(mBucket, mFile, FileDeleter.this);
-    }
-
-
-
-
-
     @Override
-    public void onFileDeleted(String fileId) {
+    public void onBucketDeleted(String bucketId) {
         Snackbar.make(mActivity.findViewById(R.id.browse_list),
-                R.string.file_deleted,
+                R.string.folder_deleted,
                 Snackbar.LENGTH_LONG).show();
         deleted = true;
 
-
-
-
     }
 
     @Override
-    public void onError(String fileId, int code, String message) {
+    public void onError(String bucketId, int code, String message) {
 
     }
 }

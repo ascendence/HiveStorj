@@ -3,6 +3,7 @@ package com.trifex.hivestorj.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import io.storj.libstorj.Bucket;
 import io.storj.libstorj.CreateBucketCallback;
@@ -26,16 +29,24 @@ import io.storj.libstorj.KeysNotFoundException;
 import io.storj.libstorj.android.StorjAndroid;
 import name.org.trifex.HiveStorj.R;
 
+import static android.graphics.Typeface.BOLD;
+import static com.trifex.hivestorj.utils.BucketInfoFragment.BUCKET;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class BucketsFragment extends Fragment implements GetBucketsCallback, CreateBucketCallback {
+public class BucketsFragment extends Fragment implements GetBucketsCallback, CreateBucketCallback, BucketInfoFragment.DeleteListener {
+
 
     private static final int NEW_BUCKET_FRAGMENT = 1;
 
     private RecyclerView mList;
     private ProgressBar mProgress;
     private TextView mStatus;
+
+    public static Bucket mBucket;
+    public  Fragment mParent = this;
+    private BucketDeleter mBdeleter;
 
     private SimpleItemRecyclerViewAdapter mListAdapter;
 
@@ -50,6 +61,7 @@ public class BucketsFragment extends Fragment implements GetBucketsCallback, Cre
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_browse, container, false);
+
 
         mList = (RecyclerView) rootView.findViewById(R.id.browse_list);
         setupRecyclerView(mList);
@@ -231,9 +243,18 @@ public class BucketsFragment extends Fragment implements GetBucketsCallback, Cre
         }
     }
 
+    @Override
+    public void onDelete(Bucket bucket) {
+        mBdeleter = new BucketDeleter(getActivity(), bucket);
+        mBdeleter.delete();
+    }
+
+
+
+
     class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>
-            implements View.OnClickListener {
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private Bucket[] mBuckets;
 
@@ -247,13 +268,16 @@ public class BucketsFragment extends Fragment implements GetBucketsCallback, Cre
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(android.R.layout.simple_list_item_2, parent, false);
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             Bucket bucket = mBuckets[position];
-            holder.mId.setText(bucket.getId());
+            //holder.mId.setText(bucket.getId());
+
+            holder.mId.setText(bucket.getCreated());
             holder.mName.setText(bucket.getName());
         }
 
@@ -274,14 +298,40 @@ public class BucketsFragment extends Fragment implements GetBucketsCallback, Cre
             }
         }
 
+        @Override
+        public boolean onLongClick(View v) {
+            int position = mList.getChildAdapterPosition(v);
+            System.out.println("POSITION IS " + position);
+            if (position != RecyclerView.NO_POSITION) {
+                mBucket = null;
+                mBucket = mBuckets[position];
+
+
+                Bundle args = new Bundle();
+                args.putSerializable(BUCKET, mBucket);
+                args.putSerializable(BucketInfoFragment.BUCKET, mBucket);
+
+                DialogFragment dialog = new BucketInfoFragment();
+                dialog.setArguments(args);
+                dialog.show(getFragmentManager(), BucketInfoFragment.class.getName());
+
+
+            }
+            return false;
+        }
+
+
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mId;
             final TextView mName;
 
             ViewHolder(View view) {
                 super(view);
-                mId = (TextView) itemView.findViewById(android.R.id.text1);
+                mId = (TextView) itemView.findViewById(android.R.id.text2);
                 mName = (TextView) itemView.findViewById(android.R.id.text1);
+                mName.setTypeface(mName.getTypeface(), BOLD);
+                mName.setTextSize(18);
+
             }
 
             @Override

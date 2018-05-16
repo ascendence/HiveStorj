@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">Hive Storj</string>
-    <string name="title_buckets">Browse</string>
+    <string name="title_buckets">Browse Folders</string>
     <string name="title_register">Register</string>
-    <string name="title_keys">Import keys</string>
-    <string name="title_bridge_info">Bridge info</string>
-    <string name="title_mnemonic">Generate mnemonic</string>
-    <string name="title_timestamp">Get timestamp</string>
-    <string name="title_libs">Native libraries</string>
+    <string name="title_keys">Import Keys</string>
+    <string name="title_bridge_info">Bridge Info</string>
+    <string name="title_mnemonic">Generate Mnemonic</string>
+    <string name="title_timestamp">Get Timestamp</string>
+    <string name="title_libs">Native Libraries</string>
     <string name="title_fileinfo">File info</string>
+    <string name="title_folderinfo">Folder info</string>
     <string name="title_new_bucket">New folder</string>
     <string name="description_keys">Enter your mnemonic encryption key here to complete your account authentication.</string>
     <string name="description_register">Please enter your details below to create a new account.</string>
@@ -42,6 +43,7 @@
     <string name="browse_no_files">No files</string>
     <string name="download_in_progress">The file will be downloaded. See notification for details.</string>
     <string name="file_deleted"> Deleted File</string>
+    <string name="folder_deleted">Deleter Folder</string>
     <string name="download_permission_denied">Write permission denied. Download aborted.</string>
     <string name="upload_in_progress">The file will be uploaded. See notification for details.</string>
     <string name="upload_complete">Upload complete. Touch to open bucket.</string>
