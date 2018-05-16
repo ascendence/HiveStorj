@@ -2,6 +2,7 @@ package com.trifex.hivestorj.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +17,11 @@ import name.org.trifex.HiveStorj.R;
  * Created by ascendance on 4/29/2018.
  */
 
-public class FilesActivity extends AppCompatActivity implements FileInfoFragment.DownloadListener {
+public class FilesActivity extends AppCompatActivity implements FileInfoFragment.DownloadListener, FileInfoFragment.DeleteListener {
 
 
     private FileDownloader mDownloader;
+    private FileDeleter mDeleter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,11 @@ public class FilesActivity extends AppCompatActivity implements FileInfoFragment
                 if (mDownloader != null) {
                     mDownloader.onRequestPermissionsResult(grantResults);
                 }
+
+                if (mDeleter != null) {
+                    mDeleter.onRequestPermissionsResult(grantResults);
+                }
+
                 break;
             }
         }
@@ -97,5 +104,30 @@ public class FilesActivity extends AppCompatActivity implements FileInfoFragment
     public void onDownload(Bucket bucket, File file) {
         mDownloader = new FileDownloader(this, bucket, file);
         mDownloader.download();
+    }
+
+    @Override
+    public void onDelete(Bucket bucket, File file) {
+        mDeleter = new FileDeleter(this, bucket, file);
+        mDeleter.delete();
+
+
+        //waits before refreshing screen
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                refreshView();
+            }
+        }, 2000);
+
+
+
+    }
+
+    private void refreshView(){
+        if (mDeleter.isDeleted() == true){
+            finish();
+            startActivity(getIntent());
+        }
     }
 }

@@ -19,6 +19,7 @@
     <string name="button_mnemonic">Regenerate</string>
     <string name="button_timestamp">Update</string>
     <string name="button_download">Download</string>
+    <string name="button_delete">Delete</string>
     <string name="hint_keys_user">Bridge user name (email)</string>
     <string name="hint_keys_pass">Bridge password</string>
     <string name="hint_keys_mnemonic">Encryption key</string>
@@ -40,6 +41,7 @@
     <string name="browse_no_buckets">No folders</string>
     <string name="browse_no_files">No files</string>
     <string name="download_in_progress">The file will be downloaded. See notification for details.</string>
+    <string name="file_deleted"> Deleted File</string>
     <string name="download_permission_denied">Write permission denied. Download aborted.</string>
     <string name="upload_in_progress">The file will be uploaded. See notification for details.</string>
     <string name="upload_complete">Upload complete. Touch to open bucket.</string>

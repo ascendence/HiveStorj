@@ -58,6 +58,9 @@ public class FileDownloader implements DownloadFileCallback {
         }
     }
 
+
+
+
     private boolean isPermissionGranted() {
         return ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -107,6 +110,8 @@ public class FileDownloader implements DownloadFileCallback {
             mNotifyManager.notify(mFile.getId().hashCode(), mBuilder.build());
         }
     }
+
+
 
     @Override
     public void onProgress(String fileId, double progress, long downloadedBytes, long totalBytes) {
