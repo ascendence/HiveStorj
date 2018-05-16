@@ -43,6 +43,8 @@
         <receiver android:name="com.trifex.hivestorj.utils.CancelDownloadReceiver" />
         <receiver android:name="com.trifex.hivestorj.utils.CancelUploadReceiver" />
 
+
+
     </application>
 
 </manifest>
