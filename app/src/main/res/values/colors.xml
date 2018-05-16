@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#FF6600</color>
     <color name="colorPrimaryLight">#FF9933</color>
-    <color name="colorPrimaryDark">#FF6600</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF6600</color>
     <color name="colorNotification">@color/colorPrimary</color>
+    <color name="colorBgMain">#000000</color>
 </resources>

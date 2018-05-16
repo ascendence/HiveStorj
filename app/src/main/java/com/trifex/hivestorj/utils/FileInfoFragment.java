@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.format.Formatter;
+import android.view.View;
+import android.widget.TextView;
 
 import io.storj.libstorj.Bucket;
 import io.storj.libstorj.File;
@@ -23,6 +25,11 @@ public class FileInfoFragment extends DialogFragment {
 
     interface DownloadListener {
         void onDownload(Bucket bucket, File file);
+
+    }
+
+    interface DeleteListener{
+        void onDelete(Bucket bucket, File file);
     }
 
     @NonNull
@@ -48,8 +55,16 @@ public class FileInfoFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         ((DownloadListener) getActivity()).onDownload(bucket, file);
                     }
-                });
+                })
+        .setNeutralButton(R.string.button_delete, new DialogInterface.OnClickListener(){
+            public void onClick (DialogInterface dialog, int id){
+                //(DeleteListener) getActivity()).onDelete(bucket, file);
+                ((DeleteListener) getActivity()).onDelete(bucket, file);
+            }
+        });
         // Create the AlertDialog object and return it
         return builder.create();
     }
+
+
 }

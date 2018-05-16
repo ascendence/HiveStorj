@@ -15,6 +15,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -249,7 +250,8 @@ public class FilesFragment extends Fragment implements ListFilesCallback {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             File file = mFiles[position];
-            holder.mId.setText(file.getId());
+            //holder.mId.setText(file.getId());
+            holder.mId.setText(Formatter.formatFileSize(getContext(), file.getSize()));
             holder.mName.setText(file.getName());
         }
 
@@ -290,6 +292,7 @@ public class FilesFragment extends Fragment implements ListFilesCallback {
             @Override
             public String toString() {
                 return super.toString() + " " + mId.getText() + " " + mName.getText();
+                //return super.toString() + " " + "sample size" + " " + mName.getText();
             }
         }
     }
