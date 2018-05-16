@@ -280,7 +280,7 @@ public class BucketsFragment extends Fragment implements GetBucketsCallback, Cre
 
             ViewHolder(View view) {
                 super(view);
-                mId = (TextView) itemView.findViewById(android.R.id.text2);
+                mId = (TextView) itemView.findViewById(android.R.id.text1);
                 mName = (TextView) itemView.findViewById(android.R.id.text1);
             }
 

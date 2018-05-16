@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.readystatesoftware.chuck.ChuckInterceptor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import name.org.trifex.HiveStorj.R;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by ascendance on 4/29/2018.
@@ -26,6 +29,9 @@ import name.org.trifex.HiveStorj.R;
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new ChuckInterceptor(getApplicationContext()))
+                .build();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
 
         FileTransferChannel.create(this);
+
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -85,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return mValues.size() - 2;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
